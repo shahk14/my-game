@@ -5,10 +5,10 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . 2 2 2 . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
+        . . . . . . 2 2 2 2 . . . . . . 
+        . . . . . . 2 2 2 2 . . . . . . 
+        . . . . . . 2 2 2 2 . . . . . . 
+        . . . . . . 2 2 2 2 . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
@@ -17,6 +17,9 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         `, myPlane, 200, 0)
+})
+info.onScore(25, function () {
+    bossMode = true
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprites.destroy(sprite)
@@ -31,6 +34,8 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
 let meteor: Sprite = null
 let projectile: Sprite = null
 let myPlane: Sprite = null
+let bossMode = false
+bossMode = false
 info.setLife(3)
 effects.starField.startScreenEffect()
 myPlane = sprites.create(img`
@@ -176,7 +181,7 @@ scene.setBackgroundImage(img`
     ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
     ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
     `)
-game.showLongText("x", DialogLayout.Bottom)
+game.showLongText("destroy the meteors", DialogLayout.Bottom)
 if (controller.A.isPressed()) {
     scene.setBackgroundImage(img`
         ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
@@ -430,27 +435,29 @@ game.onUpdate(function () {
     }
 })
 game.onUpdateInterval(2000, function () {
-    meteor = sprites.create(img`
-        . . . . . . c c c . . . . . . . 
-        . . . . . a a a c c c . . . . . 
-        . . . c a c f a a a a c . . . . 
-        . . c a c f f f a f f a c . . . 
-        . c c a c c f a a c f f a c . . 
-        . a b a a c 6 a a c c f a c c c 
-        . a b b b 6 a b b a a c a f f c 
-        . . a b b a f f b b a a c f f c 
-        c . a a a c c f c b a a c f a c 
-        c c a a a c c a a a b b a c a c 
-        a c a b b a a 6 a b b 6 b b c . 
-        b a c b b b 6 b c . c c a c . . 
-        b a c c a b b a c . . . . . . . 
-        b b a c a b a a . . . . . . . . 
-        a b 6 b b a c . . . . . . . . . 
-        . a a b c . . . . . . . . . . . 
-        `, SpriteKind.Enemy)
-    meteor.x = scene.screenWidth()
-    meteor.vx = -20
-    meteor.y = randint(scene.screenHeight() - 90, scene.screenHeight() - 50)
+    if (true) {
+        meteor = sprites.create(img`
+            . . . . . . c c c . . . . . . . 
+            . . . . . a a a c c c . . . . . 
+            . . . c a c f a a a a c . . . . 
+            . . c a c f f f a f f a c . . . 
+            . c c a c c f a a c f f a c . . 
+            . a b a a c 6 a a c c f a c c c 
+            . a b b b 6 a b b a a c a f f c 
+            . . a b b a f f b b a a c f f c 
+            c . a a a c c f c b a a c f a c 
+            c c a a a c c a a a b b a c a c 
+            a c a b b a a 6 a b b 6 b b c . 
+            b a c b b b 6 b c . c c a c . . 
+            b a c c a b b a c . . . . . . . 
+            b b a c a b a a . . . . . . . . 
+            a b 6 b b a c . . . . . . . . . 
+            . a a b c . . . . . . . . . . . 
+            `, SpriteKind.Enemy)
+        meteor.x = scene.screenWidth()
+        meteor.vx = -20
+        meteor.y = randint(scene.screenHeight() - 90, scene.screenHeight() - 50)
+    }
 })
 forever(function () {
     characterAnimations.loopFrames(
